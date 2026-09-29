@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4f46e5" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <title>Mizan AI</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <div id="login-screen" class="screen active">
+      <div class="login-box">
+        <div class="brand-logo">◆</div>
+        <h1>Mizan AI</h1>
+        <p>منصة إدارة الاشتراكات والحسابات</p>
+        <div class="field"><label>اسم المستخدم</label><input id="username" type="text" placeholder="أدخل اسم المستخدم" autocomplete="username" /></div>
+        <div class="field"><label>كلمة المرور</label><input id="password" type="password" placeholder="أدخل كلمة المرور" autocomplete="current-password" /></div>
+        <button id="login-btn" class="btn primary">دخول</button>
+        <p id="login-message" class="message"></p>
+        <div class="demo-box"><small>حسابات تجريبية</small><div class="demo-list"><span>admin / admin123</span><span>demo / customer123</span></div></div>
+      </div>
+    </div>
+    <div id="app-shell" class="app-shell hidden">
+      <aside class="sidebar"><div class="sidebar-header"><div class="brand-mini">M</div><div><h3>Mizan AI</h3><small>لوحة الإدارة</small></div></div><nav id="nav" class="nav"></nav></aside>
+      <main class="content-area"><header class="topbar"><div><h2 id="page-title">لوحة التحكم</h2></div><div class="user-box"><span id="user-label">مستخدم</span><button id="logout-btn" class="btn danger small">تسجيل الخروج</button></div></header><div id="main-content" class="main-content"></div></main>
+    </div>
+    <script src="platform-config.js"></script>
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>

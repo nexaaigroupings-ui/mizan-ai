@@ -1,0 +1,109 @@
+const fs = require('fs');
+const path = require('path');
+const bcrypt = require('bcryptjs');
+const Database = require('better-sqlite3');
+
+const dbPath = process.env.DATABASE_PATH || path.join(__dirname, 'data', 'mizan.db');
+const dbDir = path.dirname(dbPath);
+
+if (!fs.existsSync(dbDir)) {
+  fs.mkdirSync(dbDir, { recursive: true });
+}
+
+const db = new Database(dbPath);
+db.pragma('foreign_keys = ON');
+
+function initializeDatabase() {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
+      name TEXT NOT NULL,
+      company TEXT NOT NULL,
+      role TEXT DEFAULT 'user',
+      plan_id INTEGER,
+      status TEXT DEFAULT 'inactive',
+      subscribed_at TEXT,
+      expires_at TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS plans (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      price REAL NOT NULL,
+      duration_days INTEGER NOT NULL,
+      description TEXT,
+      active INTEGER DEFAULT 1
+    );
+
+    CREATE TABLE IF NOT EXISTS payment_methods (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      type TEXT NOT NULL,
+      account_name TEXT,
+      account_number TEXT,
+      iban TEXT,
+      active INTEGER DEFAULT 1
+    );
+
+    CREATE TABLE IF NOT EXISTS settings (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      key TEXT UNIQUE NOT NULL,
+      value TEXT NOT NULL
+    );
+  `);
+
+  const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get().count;
+  if (userCount === 0) {
+    const users = [
+      { username: 'admin', password: 'admin123', name: 'مدير النظام', company: 'Mizan AI', role: 'admin', status: 'active' },
+      { username: 'demo', password: 'customer123', name: 'عميل تجريبي', company: 'شركة تجريبية', role: 'user', status: 'active' }
+    ];
+    const insertUser = db.prepare('INSERT INTO users (username, password_hash, name, company, role, status, subscribed_at, expires_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+    for (const user of users) {
+      const expiresAt = user.role === 'admin' ? null : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+      insertUser.run(
+        user.username,
+        bcrypt.hashSync(user.password, 10),
+        user.name,
+        user.company,
+        user.role,
+        user.status,
+        new Date().toISOString(),
+        expiresAt
+      );
+    }
+  }
+
+  const planCount = db.prepare('SELECT COUNT(*) as count FROM plans').get().count;
+  if (planCount === 0) {
+    db.prepare('INSERT INTO plans (name, price, duration_days, description, active) VALUES (?, ?, ?, ?, ?)').run('أساسي', 99, 30, 'خطة أساسية', 1);
+    db.prepare('INSERT INTO plans (name, price, duration_days, description, active) VALUES (?, ?, ?, ?, ?)').run('احترافي', 199, 30, 'خطة احترافية', 1);
+    db.prepare('INSERT INTO plans (name, price, duration_days, description, active) VALUES (?, ?, ?, ?, ?)').run('مؤسسات', 499, 30, 'خطة للمؤسسات', 1);
+  }
+
+  const paymentCount = db.prepare('SELECT COUNT(*) as count FROM payment_methods').get().count;
+  if (paymentCount === 0) {
+    db.prepare('INSERT INTO payment_methods (name, type, account_name, account_number, iban, active) VALUES (?, ?, ?, ?, ?, ?)').run('الراجحي', 'bank', 'حسابات الشركة', '123456789', 'SA1234567890123456789', 1);
+    db.prepare('INSERT INTO payment_methods (name, type, account_name, account_number, iban, active) VALUES (?, ?, ?, ?, ?, ?)').run('أمازون باي', 'digital', 'محفظة رقمية', '', '', 1);
+    db.prepare('INSERT INTO payment_methods (name, type, account_name, account_number, iban, active) VALUES (?, ?, ?, ?, ?, ?)').run('نقدي', 'cash', 'الدفع المباشر', '', '', 1);
+  }
+
+  const settingCount = db.prepare('SELECT COUNT(*) as count FROM settings').get().count;
+  if (settingCount === 0) {
+    db.prepare('INSERT INTO settings (key, value) VALUES (?, ?)').run('company_name', 'Mizan AI');
+    db.prepare('INSERT INTO settings (key, value) VALUES (?, ?)').run('currency', 'SAR');
+    db.prepare('INSERT INTO settings (key, value) VALUES (?, ?)').run('language', 'ar');
+  }
+}
+
+function getAll(table) {
+  return db.prepare(`SELECT * FROM ${table} ORDER BY id DESC`).all();
+}
+
+module.exports = {
+  db,
+  initializeDatabase,
+  getAll
+};
