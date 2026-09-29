@@ -1,0 +1,12 @@
+{
+  "name": "Mizan AI",
+  "short_name": "Mizan AI",
+  "description": "منصة Mizan AI لإدارة الاشتراكات والحسابات",
+  "start_url": "/",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#f4f7fb",
+  "theme_color": "#4f46e5",
+  "icons": []
+}

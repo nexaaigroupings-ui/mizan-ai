@@ -1,47 +1,67 @@
-# Mizan AI
+# تشغيل Mizan AI على الويب وأندرويد والحاسوب
 
-## المتطلبات
+## نفس الكود
 
-- Node.js 22.x
-- npm
+الواجهة الموجود�� في `index.html` و`assets/` مشتركة بين الويب وAndroid وElectron.
 
-## التثبيت
+## الويب وRailway
 
 ```bash
 npm install
-```
-
-## التشغيل محلياً
-
-```bash
 npm start
 ```
 
-## المتغيرات البيئية
+في Railway استخدم:
 
 ```env
-PORT=3000
-JWT_SECRET=change_this_to_a_secure_secret
-DATABASE_PATH=./data/mizan.db
+JWT_SECRET=ضع_قيمة_سرية_قوية
+DATABASE_PATH=/data/mizan.db
 ```
 
-## بيانات الدخول الافتراضية
+وأضف Volume على `/data`.
 
-- admin / admin123
-- demo / customer123
+## Android عبر Capacitor
 
-## النشر على Railway
+ثبت Android Studio وAndroid SDK ثم نفذ:
 
-1. أضف المشروع إلى GitHub
-2. اربط المستودع بـ Railway
-3. اختر `Deploy from GitHub repo`
-4. أضف متغيرات البيئة:
-   - `PORT=3000`
-   - `JWT_SECRET=your_secure_secret`
-   - `DATABASE_PATH=/data/mizan.db`
-5. أضف Volume في Railway على المسار `/data`
-6. قم بالنشر
+```bash
+npm install
+npm run mobile:add
+npm run mobile:sync
+npm run mobile:open
+```
 
-## ملاحظة
+إذا كان الـ API منشورًا على Railway، أنشئ ملف `platform-config.js` قبل المزامنة وضع فيه:
 
-تم إتاحة دعم كامل للاشتراكات، إدارة خطط الاشتراك، طرق الدفع، وتكوين الشركة. إذا انتهت مدة الاشتراك يمنع الدخول إلى التطبيق إلا بعد تجديد الاشتراك.
+```js
+window.MIZAN_API_URL = 'https://YOUR-RAILWAY-DOMAIN/api';
+```
+
+ثم نفذ `npm run mobile:sync` وابنِ التطبيق من Android Studio.
+
+يمكن بدل ذلك ضبط `CAPACITOR_SERVER_URL` على رابط Railway لتحميل الواجهة المنشورة.
+
+## تطبيق الحاسوب عبر Electron
+
+للتطوير المحلي:
+
+```bash
+npm install
+electron .
+```
+
+لتشغيل نسخة سطح المكتب من الواجهة المنشورة:
+
+```bash
+MIZAN_WEB_URL=https://YOUR-RAILWAY-DOMAIN npm run desktop
+```
+
+لبناء مثبت Windows/macOS/Linux:
+
+```bash
+npm run desktop:build
+```
+
+## ملاحظة مهمة
+
+Android والحاسوب يستخدمان نفس الواجهة، لكنهما يحتاجان الوصول إلى API منشور وآمن عبر HTTPS. لا تستخدم `localhost` داخل التطبيق المثبت؛ استخدم رابط Railway الحقيقي.
