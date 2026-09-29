@@ -1,21 +1,21 @@
 {
   "name": "mizan-ai",
-  "version": "3.3.1",
-  "description": "Mizan AI shared web, Android, and desktop application",
+  "version": "3.2.0",
+  "description": "Mizan AI - Smart accounting platform with subscription management",
   "private": true,
   "license": "MIT",
-  "main": "electron/main.cjs",
+  "main": "server.js",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "desktop": "electron .",
-    "desktop:build": "electron-builder",
     "mobile:add": "npx cap add android",
-    "mobile:sync": "npx cap sync android",
-    "mobile:open": "npx cap open android"
-  },
-  "engines": {
-    "node": ">=20 <23"
+    "mobile:sync": "npx cap sync",
+    "mobile:open": "npx cap open android",
+    "desktop": "electron .",
+    "desktop:build": "electron-builder"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -26,27 +26,9 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
-    "@capacitor/android": "^7.0.0",
-    "@capacitor/cli": "^7.0.0",
-    "electron": "^36.0.0",
-    "electron-builder": "^26.0.0"
-  },
-  "build": {
-    "appId": "com.mizanai.app",
-    "productName": "Mizan AI",
-    "files": [
-      "electron/**/*",
-      "assets/**/*",
-      "index.html",
-      "manifest.webmanifest",
-      "service-worker.js",
-      "platform-config.js",
-      "capacitor.config.ts",
-      "package.json"
-    ],
-    "directories": { "output": "dist" },
-    "win": { "target": "nsis" },
-    "linux": { "target": "AppImage" },
-    "mac": { "target": "dmg" }
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.6.0"
   }
 }
