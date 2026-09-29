@@ -5,7 +5,9 @@ const config: CapacitorConfig = {
   appName: 'Mizan AI',
   webDir: '.',
   bundledWebRuntime: false,
-  android: { backgroundColor: '#f4f7fb' }
+  android: {
+    backgroundColor: '#f3f5fb'
+  }
 };
 
 export default config;

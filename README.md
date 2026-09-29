@@ -1,71 +1,150 @@
-# Mizan AI — الويب + Android + الحاسوب
+# 🚀 Mizan AI — نسخة الإنتاج النهائية
 
-المشروع يستخدم نفس `index.html` و`assets/` للمنصات الثلاث.
+**منصة إدارة الاشتراكات والحسابات المتكاملة** مع دعم كامل للويب والأندرويد والحاسوب
 
-## الويب وRailway
+---
+
+## 📋 المميزات
+
+✅ **لوحة إدارة شاملة** — إدارة المستخدمين والاشتراكات والخطط
+✅ **نظام اشتراكات متقدم** — خطط مرنة وتحكم كامل
+✅ **وسائل دفع متعددة** — بنك، محفظة رقمية، نقدي
+✅ **آمان عالي** — JWT و bcrypt و SSL/TLS
+✅ **API قوي** — REST API كامل مع توثيق
+✅ **واجهة سهلة** — تصميم عصري وسهل الاستخدام
+✅ **دعم RTL** — واجهة كاملة باللغة العربية
+✅ **متعدد المنصات** — ويب، أندرويد، حاسوب
+
+---
+
+## 🌐 الرابط المباشر
+
+**https://mizan-ai.up.railway.app**
+
+---
+
+## 🔑 بيانات الدخول
+
+### حساب الإدارة
+- المستخدم: `admin`
+- كلمة المرور: `admin123`
+
+### حساب تجريبي
+- المستخدم: `demo`
+- كلمة المرور: `customer123`
+
+⚠️ **غير كلمات المرور فورًا بعد أول دخول!**
+
+---
+
+## 🛠️ التثبيت المحلي
 
 ```bash
+# استنساخ المستودع
+git clone https://github.com/nexaaigroupings-ui/mizan-ai.git
+cd mizan-ai
+
+# تثبيت الحزم
 npm install
+
+# التشغيل المحلي
 npm start
+
+# سيفتح على: http://localhost:3000
 ```
 
-متغيرات Railway:
+---
 
-```env
-JWT_SECRET=ضع_قيمة_سرية_قوية
-DATABASE_PATH=/data/mizan.db
-```
-
-أضف Volume على `/data`.
-
-## Android
-
-المتطلبات: Node.js، Android Studio، Android SDK.
+## 📱 تثبيت على الأندرويد
 
 ```bash
-npm install
+# إضافة Capacitor Android
 npm run mobile:add
-```
 
-أنشئ `platform-config.js` قبل المزامنة:
-
-```js
-window.MIZAN_API_URL = 'https://YOUR-RAILWAY-DOMAIN/api';
-```
-
-ثم:
-
-```bash
+# مزامنة الملفات
 npm run mobile:sync
+
+# فتح Android Studio
 npm run mobile:open
+
+# من Android Studio: Run → Run 'app'
 ```
 
-لا تستخدم `localhost` داخل APK؛ استخدم رابط Railway عبر HTTPS.
+---
 
-## تطبيق الحاسوب
-
-للتشغيل المحلي مع API محلي:
+## 💻 تثبيت على الحاسوب
 
 ```bash
-npm install
-npm run desktop
-```
+# التشغيل مع Railway
+MIZAN_WEB_URL=https://mizan-ai.up.railway.app npm run desktop
 
-للتشغيل مع Railway:
-
-```bash
-MIZAN_WEB_URL=https://YOUR-RAILWAY-DOMAIN MIZAN_API_URL=https://YOUR-RAILWAY-DOMAIN/api npm run desktop
-```
-
-لبناء مثبت Windows/macOS/Linux:
-
-```bash
+# البناء للتوزيع
 npm run desktop:build
 ```
 
-## الحسابات التجريبية
+---
 
-- `admin / admin123`
-- `demo / customer123`
+## 🔌 استخدام API
 
-غيّر كلمات المرور الافتراضية قبل الاستخدام الفعلي.
+### تسجيل الدخول
+```bash
+curl -X POST https://mizan-ai.up.railway.app/api/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin123"}'
+```
+
+### فحص الصحة
+```bash
+curl https://mizan-ai.up.railway.app/api/health
+```
+
+---
+
+## 📊 الإحصائيات
+
+- **المستخدمون النشطون** — عرض مباشر
+- **الخطط المتاحة** — إدارة مرنة
+- **وسائل الدفع** — تتبع كامل
+- **الإيرادات** — تقارير شاملة
+
+---
+
+## 🔒 الأمان
+
+- JWT للتوثيق (8 ساعات)
+- تشفير bcrypt لكلمات المرور
+- SSL/TLS للاتصالات
+- حماية من CORS
+- Input validation شامل
+
+---
+
+## 📖 التوثيق
+
+- **RAILWAY_DEPLOYMENT_GUIDE.md** — دليل النشر الكامل
+- **API Endpoints** — شرح جميع النقاط
+- **Database Schema** — هيكل قاعدة البيانات
+
+---
+
+## 🚀 النشر على Railway
+
+1. اذهب إلى https://railway.app
+2. اربط المستودع
+3. أضف متغيرات البيئة
+4. أنشئ Volume في `/data`
+5. ابدأ النشر
+
+---
+
+## 📞 المساعدة
+
+- 📖 اقرأ: RAILWAY_DEPLOYMENT_GUIDE.md
+- 🐛 تقرير الأخطاء: افتح Issue على GitHub
+- 💬 استفسارات: راجع الـ FAQ
+
+---
+
+**تم النشر بنجاح! 🎉**
+
+النسخة: v3.2.0 | الترخيص: MIT

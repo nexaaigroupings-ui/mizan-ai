@@ -1,21 +1,21 @@
 {
   "name": "mizan-ai",
   "version": "3.2.0",
-  "description": "Mizan AI - Smart accounting platform with subscription management",
+  "description": "Mizan AI platform with subscription management and Railway-ready deployment",
   "private": true,
   "license": "MIT",
   "main": "server.js",
-  "engines": {
-    "node": "22.x"
-  },
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
     "mobile:add": "npx cap add android",
-    "mobile:sync": "npx cap sync",
+    "mobile:sync": "npx cap sync android",
     "mobile:open": "npx cap open android",
-    "desktop": "electron .",
+    "desktop": "node electron/main.cjs",
     "desktop:build": "electron-builder"
+  },
+  "engines": {
+    "node": "22.x"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -24,11 +24,5 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2"
-  },
-  "devDependencies": {
-    "@capacitor/cli": "^6.0.0",
-    "@capacitor/core": "^6.0.0",
-    "electron": "^28.0.0",
-    "electron-builder": "^24.6.0"
   }
 }

@@ -1,39 +1,26 @@
-const { app, BrowserWindow, shell } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
 
+let mainWindow;
+
 function createWindow() {
-  const window = new BrowserWindow({
-    width: 1440,
-    height: 900,
-    minWidth: 960,
-    minHeight: 650,
-    backgroundColor: '#f4f7fb',
-    autoHideMenuBar: true,
+  mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 800,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.cjs'),
-      contextIsolation: true,
       nodeIntegration: false,
-      sandbox: true
+      preload: path.join(__dirname, 'preload.cjs')
     }
   });
 
-  const remoteUrl = process.env.MIZAN_WEB_URL;
-  if (remoteUrl) window.loadURL(remoteUrl);
-  else window.loadFile(path.join(__dirname, '..', 'index.html'));
+  const url = process.env.MIZAN_WEB_URL || 'http://localhost:3000';
+  mainWindow.loadURL(url);
 
-  window.webContents.setWindowOpenHandler(({ url }) => {
-    shell.openExternal(url);
-    return { action: 'deny' };
+  mainWindow.on('closed', () => {
+    mainWindow = null;
   });
 }
 
-app.whenReady().then(() => {
-  createWindow();
-  app.on('activate', () => {
-    if (!BrowserWindow.getAllWindows().length) createWindow();
-  });
-});
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
-});
+app.on('ready', createWindow);
+app.on('window-all-closed', () => process.platform !== 'darwin' && app.quit());
+app.on('activate', () => mainWindow === null && createWindow());
