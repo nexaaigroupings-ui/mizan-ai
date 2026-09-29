@@ -1,8 +1,6 @@
-# تشغيل Mizan AI على الويب وأندرويد والحاسوب
+# Mizan AI — الويب + Android + الحاسوب
 
-## نفس الكود
-
-الواجهة الموجود�� في `index.html` و`assets/` مشتركة بين الويب وAndroid وElectron.
+المشروع يستخدم نفس `index.html` و`assets/` للمنصات الثلاث.
 
 ## الويب وRailway
 
@@ -11,49 +9,52 @@ npm install
 npm start
 ```
 
-في Railway استخدم:
+متغيرات Railway:
 
 ```env
 JWT_SECRET=ضع_قيمة_سرية_قوية
 DATABASE_PATH=/data/mizan.db
 ```
 
-وأضف Volume على `/data`.
+أضف Volume على `/data`.
 
-## Android عبر Capacitor
+## Android
 
-ثبت Android Studio وAndroid SDK ثم نفذ:
+المتطلبات: Node.js، Android Studio، Android SDK.
 
 ```bash
 npm install
 npm run mobile:add
-npm run mobile:sync
-npm run mobile:open
 ```
 
-إذا كان الـ API منشورًا على Railway، أنشئ ملف `platform-config.js` قبل المزامنة وضع فيه:
+أنشئ `platform-config.js` قبل المزامنة:
 
 ```js
 window.MIZAN_API_URL = 'https://YOUR-RAILWAY-DOMAIN/api';
 ```
 
-ثم نفذ `npm run mobile:sync` وابنِ التطبيق من Android Studio.
+ثم:
 
-يمكن بدل ذلك ضبط `CAPACITOR_SERVER_URL` على رابط Railway لتحميل الواجهة المنشورة.
+```bash
+npm run mobile:sync
+npm run mobile:open
+```
 
-## تطبيق الحاسوب عبر Electron
+لا تستخدم `localhost` داخل APK؛ استخدم رابط Railway عبر HTTPS.
 
-للتطوير المحلي:
+## تطبيق الحاسوب
+
+للتشغيل المحلي مع API محلي:
 
 ```bash
 npm install
-electron .
+npm run desktop
 ```
 
-لتشغيل نسخة سطح المكتب من الواجهة المنشورة:
+للتشغيل مع Railway:
 
 ```bash
-MIZAN_WEB_URL=https://YOUR-RAILWAY-DOMAIN npm run desktop
+MIZAN_WEB_URL=https://YOUR-RAILWAY-DOMAIN MIZAN_API_URL=https://YOUR-RAILWAY-DOMAIN/api npm run desktop
 ```
 
 لبناء مثبت Windows/macOS/Linux:
@@ -62,6 +63,9 @@ MIZAN_WEB_URL=https://YOUR-RAILWAY-DOMAIN npm run desktop
 npm run desktop:build
 ```
 
-## ملاحظة مهمة
+## الحسابات التجريبية
 
-Android والحاسوب يستخدمان نفس الواجهة، لكنهما يحتاجان الوصول إلى API منشور وآمن عبر HTTPS. لا تستخدم `localhost` داخل التطبيق المثبت؛ استخدم رابط Railway الحقيقي.
+- `admin / admin123`
+- `demo / customer123`
+
+غيّر كلمات المرور الافتراضية قبل الاستخدام الفعلي.

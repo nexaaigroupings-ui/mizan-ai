@@ -5,15 +5,7 @@ const config: CapacitorConfig = {
   appName: 'Mizan AI',
   webDir: '.',
   bundledWebRuntime: false,
-  android: {
-    backgroundColor: '#f4f7fb'
-  },
-  server: {
-    // Set CAPACITOR_SERVER_URL to the deployed Railway URL for native builds.
-    // Leaving this unset makes Capacitor load the local web files.
-    url: process.env.CAPACITOR_SERVER_URL || undefined,
-    cleartext: false
-  }
+  android: { backgroundColor: '#f4f7fb' }
 };
 
 export default config;

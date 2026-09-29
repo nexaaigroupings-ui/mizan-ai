@@ -1,8 +1,6 @@
 const { app, BrowserWindow, shell } = require('electron');
 const path = require('path');
 
-const remoteUrl = process.env.MIZAN_WEB_URL;
-
 function createWindow() {
   const window = new BrowserWindow({
     width: 1440,
@@ -19,11 +17,9 @@ function createWindow() {
     }
   });
 
-  if (remoteUrl) {
-    window.loadURL(remoteUrl);
-  } else {
-    window.loadFile(path.join(__dirname, '..', 'index.html'));
-  }
+  const remoteUrl = process.env.MIZAN_WEB_URL;
+  if (remoteUrl) window.loadURL(remoteUrl);
+  else window.loadFile(path.join(__dirname, '..', 'index.html'));
 
   window.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
@@ -34,7 +30,7 @@ function createWindow() {
 app.whenReady().then(() => {
   createWindow();
   app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    if (!BrowserWindow.getAllWindows().length) createWindow();
   });
 });
 
